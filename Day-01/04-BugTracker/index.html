@@ -15,25 +15,52 @@
         }
     </style>
     <script>
+        var bugTracker = angular.module("bugTracker",[]);
+        bugTracker.controller("bugsController", function($scope){
 
+            $scope.newBugTitle = '';
+
+            $scope.bugs = [
+                { title : "Unable to login", isClosed : false},
+                { title : "Server communication fails", isClosed : false},
+                { title : "Data not saved", isClosed : false},
+           ];
+            $scope.addNew = function(){
+                var newBug = {title : $scope.newBugTitle, isClosed : false};
+                $scope.bugs.push(newBug);
+                $scope.newBugTitle = '';
+            };
+
+            $scope.toggleStatus = function(bug){
+                bug.isClosed = !bug.isClosed;
+            };
+
+            $scope.removeClosed = function(){
+                for(var i=$scope.bugs.length - 1; i>=0; i--)
+                    if ($scope.bugs[i].isClosed)
+                        $scope.bugs.splice(i,1);
+            };
+
+            $scope.getClosedCount = function(){
+                return $scope.bugs.filter(function(bug){ return bug.isClosed ;}).length;
+            }
+        });
     </script>
 </head>
-<body>
+<body ng-app = "bugTracker">
     <h1>Bug Tracker</h1>
-    <div class="content">
+    <div class="content" ng-controller="bugsController">
         <div class="stats">
-            <span># of Closed Bugs</span> / <span>Total # of Bugs</span>
+            <span>{{getClosedCount()}}</span> / <span>{{bugs.length}}</span>
         </div>
         <form action="">
             <label for="">Bug :</label>
-            <input type="text" name="" id="">
-            <input type="button" value="Add New">
-            <input type="button" value="Remove Closed">
+            <input type="text" ng-model="newBugTitle">
+            <input type="button" value="Add New" ng-click="addNew()">
+            <input type="button" value="Remove Closed" ng-click="removeClosed()">
         </form>
         <ol>
-            <li>Bug - 1</li>
-            <li class="closed">Bug - 2</li>
-            <li>Bug - 3</li>
+            <li ng-repeat="bug in bugs" ng-click="toggleStatus(bug)" ng-class="{closed : bug.isClosed}">{{bug}}</li>
         </ol>
     </div>
 </body>
