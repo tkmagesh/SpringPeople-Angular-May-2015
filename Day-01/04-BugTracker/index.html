@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bug Tracker</title>
+    <script src="angular.min.js"></script>
+    <style>
+        .closed{
+            color : red;
+            text-decoration: line-through;
+            font-style: italic;
+        }
+        .stats{
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+
+    </script>
+</head>
+<body>
+    <h1>Bug Tracker</h1>
+    <div class="content">
+        <div class="stats">
+            <span># of Closed Bugs</span> / <span>Total # of Bugs</span>
+        </div>
+        <form action="">
+            <label for="">Bug :</label>
+            <input type="text" name="" id="">
+            <input type="button" value="Add New">
+            <input type="button" value="Remove Closed">
+        </form>
+        <ol>
+            <li>Bug - 1</li>
+            <li class="closed">Bug - 2</li>
+            <li>Bug - 3</li>
+        </ol>
+    </div>
+</body>
+</html>
