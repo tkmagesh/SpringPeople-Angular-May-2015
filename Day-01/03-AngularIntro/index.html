@@ -44,8 +44,14 @@
       var myApp = angular.module("myApp",[]);
 
       myApp.run(function($rootScope){
-          $rootScope.calculator = new SalaryCalculator();
-          $rootScope.greeter = new Greeter();
+
+      });
+
+      myApp.controller("calculatorController", function($scope){
+           $scope.calculator = new SalaryCalculator();
+      })
+      myApp.controller("greetController", function($scope){
+           $scope.greeter = new Greeter();
       });
 
 
@@ -53,7 +59,7 @@
 </head>
 <body ng-app="myApp">
     <h1>Salary Calculator</h1>
-    <div class="content">
+    <div class="content" ng-controller="calculatorController">
         <div class="field">
             <label for="">Basic :</label>
             <input type="text" name="" id="txtBasic" ng-model="calculator.basic">
@@ -78,16 +84,16 @@
     </div>
     <hr>
     <h1>Greet App</h1>
-    <div class="content">
+    <div class="content" ng-controller="greetController">
         <div class="field">
             <label for="">Name :</label>
-            <input type="text" name="" >
+            <input type="text" name="" ng-model="greeter.name" >
         </div>
         <div class="field">
-            <input type="button" value="Greet" >
+            <input type="button" value="Greet" ng-click="greeter.greet()" >
         </div>
          <div class="field">
-            <div id="divResult">[Greet Msg]</div>
+            <div id="divResult" ng-bind="greeter.greetMsg">[Greet Msg]</div>
         </div>
     </div>
 </body>

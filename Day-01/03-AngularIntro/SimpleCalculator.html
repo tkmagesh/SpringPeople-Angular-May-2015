@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+    <style>
+    .field{
+        margin-bottom: 10px;
+    }
+        label{
+            display: block;
+        }
+        #divResult {
+            font-size: 18pt;
+            color : red;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="field"><label for="">Number 1:</label><input type="text"></div>
+        <div class="field"><label for="">Number 2:</label><input type="text"></div>
+        <div class="field">
+            <label for="">Operation :</label>
+            <select>
+                <option value="add">add</option>
+                <option value="subtract">subtract</option>
+                <option value="multiply">multiply</option>
+                <option value="divide"></option>divide</select>
+
+        </div>
+        <div class="field"><input type="button" value="Calculate"></div>
+        <div class="field">
+                <div id="divResult">[Result]</div>
+            </div>
+    </div>
+</body>
+</html>
