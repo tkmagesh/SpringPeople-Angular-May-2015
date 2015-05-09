@@ -13,6 +13,9 @@
         .stats{
             margin-bottom: 10px;
         }
+        .search{
+            margin: 10px 0px;
+        }
     </style>
     <script>
         var bugTracker = angular.module("bugTracker",[]);
@@ -132,9 +135,14 @@
 </head>
 <body ng-app = "bugTracker">
     <h1>Bug Tracker</h1>
+
     <div class="content" ng-controller="bugsController">
         <div class="stats">
             <span>{{getClosedCount()}}</span> / <span>{{bugs.length}}</span>
+        </div>
+        <div class="search">
+            <label for="">Search :</label>
+            <input type="text">
         </div>
         <form action="">
             <label for="">Bug :</label>
@@ -143,7 +151,11 @@
             <input type="button" value="Remove Closed" ng-click="removeClosed()">
         </form>
         <ol>
-            <li ng-repeat="bug in bugs" ng-click="toggleStatus(bug)" ng-class="{closed : bug.isClosed}">{{bug}}</li>
+            <li
+                ng-repeat="bug in bugs | filter:'search'"
+                ng-click="toggleStatus(bug)"
+                ng-class="{closed : bug.isClosed}"
+            >{{bug.title | lowercase}}</li>
         </ol>
     </div>
 </body>
