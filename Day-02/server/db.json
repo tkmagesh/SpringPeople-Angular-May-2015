@@ -1,21 +1,15 @@
 {
   "bugs": [
     {
-      "id": 1,
-      "title": "Application crashes frequently",
+      "id": 3,
+      "title": "User authentication not happens",
       "createdAt": "2015-05-09T06:22:27.784Z",
       "isClosed": false
     },
     {
-      "id": 2,
-      "title": "Server communication fails",
-      "createdAt": "2015-05-09T06:22:27.784Z",
-      "isClosed": true
-    },
-    {
-      "id": 3,
-      "title": "User authentication not happens",
-      "createdAt": "2015-05-09T06:22:27.784Z",
+      "id": 4,
+      "title": "Definitely a new bug",
+      "createdAt": "2015-05-09T09:44:49.440Z",
       "isClosed": false
     }
   ]
