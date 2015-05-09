@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bug Tracker</title>
+    <script src="angular.min.js"></script>
+    <style>
+        .closed{
+            color : red;
+            text-decoration: line-through;
+            font-style: italic;
+        }
+        .stats{
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        var bugTracker = angular.module("bugTracker",[]);
+
+        bugTracker.factory("Bug", function(){
+            function Bug(defaults){
+                defaults = defaults || {};
+                this.title = defaults.title || '';
+                this.isClosed = defaults.isClosed || false;
+            }
+
+            Bug.prototype.toggle = function(){
+                this.isClosed = !this.isClosed;
+            }
+            return Bug;
+        });
+
+        bugTracker.controller("bugsController", function($scope, Bug){
+
+            $scope.newBugTitle = '';
+
+            $scope.bugs = [
+                new Bug({ title : "Unable to login", isClosed : false}),
+                new Bug({ title : "Server communication fails", isClosed : false}),
+                new Bug({ title : "Data not saved", isClosed : false}),
+           ];
+            $scope.addNew = function(){
+                var newBug = new Bug({title : $scope.newBugTitle, isClosed : false});
+                $scope.bugs.push(newBug);
+                $scope.newBugTitle = '';
+            };
+
+            $scope.toggleStatus = function(bug){
+                bug.toggle();
+            };
+
+            $scope.removeClosed = function(){
+                for(var i=$scope.bugs.length - 1; i>=0; i--)
+                    if ($scope.bugs[i].isClosed)
+                        $scope.bugs.splice(i,1);
+            };
+
+            $scope.getClosedCount = function(){
+                return $scope.bugs.filter(function(bug){ return bug.isClosed ;}).length;
+            }
+        });
+    </script>
+</head>
+<body ng-app = "bugTracker">
+    <h1>Bug Tracker</h1>
+    <div class="content" ng-controller="bugsController">
+        <div class="stats">
+            <span>{{getClosedCount()}}</span> / <span>{{bugs.length}}</span>
+        </div>
+        <form action="">
+            <label for="">Bug :</label>
+            <input type="text" ng-model="newBugTitle">
+            <input type="button" value="Add New" ng-click="addNew()">
+            <input type="button" value="Remove Closed" ng-click="removeClosed()">
+        </form>
+        <ol>
+            <li ng-repeat="bug in bugs" ng-click="toggleStatus(bug)" ng-class="{closed : bug.isClosed}">{{bug}}</li>
+        </ol>
+    </div>
+</body>
+</html>
