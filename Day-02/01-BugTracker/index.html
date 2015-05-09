@@ -5,6 +5,8 @@
     <title>Bug Tracker</title>
     <script src="angular.min.js"></script>
     <script src="moment.js"></script>
+    <script src="utils.js"></script>
+
     <style>
         .closed{
             color : red;
@@ -39,7 +41,12 @@
         }
     </style>
     <script>
-        var bugTracker = angular.module("bugTracker",[]);
+
+
+
+        var bugTracker = angular.module("bugTracker",["utils"]);
+
+       bugTracker.value("defaultLimitLength", 30);
 
         bugTracker.factory("Bug", function(){
             function Bug(defaults){
@@ -152,20 +159,7 @@
 
         });
 
-        bugTracker.filter("trimText", function(){
-            return function(data, limitLength){
-                limitLength = limitLength || 20;
-                return data.length> limitLength
-                    ? data.substr(0,limitLength) + "..."
-                    : data;
-            }
-        });
 
-        bugTracker.filter("toMoment", function(){
-           return function(data){
-               return moment(data).fromNow();
-           }
-        });
     </script>
 </head>
 <body ng-app = "bugTracker">
@@ -203,7 +197,7 @@
                 <div>
                     <div class="title"
                         ng-click="toggleStatus(bug)"
-                        ng-class="{closed : bug.isClosed}">{{bug.title}}</div>
+                        ng-class="{closed : bug.isClosed}">{{bug.title | trimText}}</div>
                     <div class="timeStamp">{{bug.createdAt | toMoment}}</div>
                 </div>
             </li>
