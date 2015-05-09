@@ -1,0 +1,22 @@
+{
+  "bugs": [
+    {
+      "id": 1,
+      "title": "Application crashes frequently",
+      "createdAt": "2015-05-09T06:22:27.784Z",
+      "isClosed": false
+    },
+    {
+      "id": 2,
+      "title": "Server communication fails",
+      "createdAt": "2015-05-09T06:22:27.784Z",
+      "isClosed": true
+    },
+    {
+      "id": 3,
+      "title": "User authentication not happens",
+      "createdAt": "2015-05-09T06:22:27.784Z",
+      "isClosed": false
+    }
+  ]
+}
