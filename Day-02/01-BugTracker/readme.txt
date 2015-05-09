@@ -14,3 +14,21 @@ Use Cases
 
 10. Persist the bugs in the localStorage
 11. Persist the bugs in the server
+
+localStorage
+    - window.localStorage
+    - key/value store
+    
+    - both the key and the value should be strings
+    
+    - Apis
+        setItem(key, value)
+        getItem(key) //=> value
+        removeItem(key)
+        clear()
+        key(index) //=> key
+        length
+        
+
+    object - string -> angular.toJson(obj)
+    string - object -> angular.fromJson(string)
