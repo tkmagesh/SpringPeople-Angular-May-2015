@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Bug Tracker</title>
     <script src="angular.min.js"></script>
+    <script src="moment.js"></script>
     <style>
         .closed{
             color : red;
@@ -16,6 +17,26 @@
         .section{
             margin: 10px 0px;
         }
+        ol{
+            width : 50%;
+        }
+        li{
+            cursor: pointer;
+            padding: 10px;
+            list-style: none;
+            border : 2px solid black;
+            background: -webkit-linear-gradient(top, gray 0%, white 100%);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .title{
+            font-size: 18pt;
+            font-weight: bold;
+        }
+        .timeStamp{
+            font-size: small;
+            font-style: italic;
+        }
     </style>
     <script>
         var bugTracker = angular.module("bugTracker",[]);
@@ -25,6 +46,7 @@
                 defaults = defaults || {};
                 this.id = defaults.id || 0;
                 this.title = defaults.title || '';
+                this.createdAt = defaults.createdAt || new Date();
                 this.isClosed = defaults.isClosed || false;
             }
 
@@ -71,7 +93,7 @@
             };
         });*/
 
-         bugTracker.service("bugStorage", function(Bug){
+        bugTracker.service("bugStorage", function(Bug){
             var lastBugId = parseInt(localStorage.key(localStorage.length-1) || 0, 10);
 
 
@@ -127,9 +149,22 @@
                     }
             };
 
-            $scope.getClosedCount = function(){
-                return $scope.bugs.filter(function(bug){ return bug.isClosed ;}).length;
+
+        });
+
+        bugTracker.filter("trimText", function(){
+            return function(data, limitLength){
+                limitLength = limitLength || 20;
+                return data.length> limitLength
+                    ? data.substr(0,limitLength) + "..."
+                    : data;
             }
+        });
+
+        bugTracker.filter("toMoment", function(){
+           return function(data){
+               return moment(data).fromNow();
+           }
         });
     </script>
 </head>
@@ -138,11 +173,14 @@
 
     <div class="content" ng-controller="bugsController">
         <div class="stats">
-            <span>{{getClosedCount()}}</span> / <span>{{bugs.length}}</span>
+            <span>{{(bugs | filter:{isClosed:true}).length}}</span> / <span>{{bugs.length}}</span>
         </div>
         <div class="section">
             <label for="">Search :</label>
             <input type="text" ng-model="searchBug.title">
+            <br>
+            <label for="">Bug Length Limit : </label>
+            <input type="range" ng-model="bugTitleLimit">
         </div>
         <div class="section">
             <label for="">Sort :</label>
@@ -161,11 +199,14 @@
             <input type="button" value="Remove Closed" ng-click="removeClosed()">
         </form>
         <ol>
-            <li
-                ng-repeat="bug in bugs | filter:searchBug | orderBy:sortByField:descending"
-                ng-click="toggleStatus(bug)"
-                ng-class="{closed : bug.isClosed}"
-            >{{bug.title | lowercase}}</li>
+            <li ng-repeat="bug in bugs | filter:searchBug | orderBy:sortByField:descending">
+                <div>
+                    <div class="title"
+                        ng-click="toggleStatus(bug)"
+                        ng-class="{closed : bug.isClosed}">{{bug.title}}</div>
+                    <div class="timeStamp">{{bug.createdAt | toMoment}}</div>
+                </div>
+            </li>
         </ol>
     </div>
 </body>
