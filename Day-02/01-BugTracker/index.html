@@ -13,7 +13,7 @@
         .stats{
             margin-bottom: 10px;
         }
-        .search{
+        .section{
             margin: 10px 0px;
         }
     </style>
@@ -140,9 +140,19 @@
         <div class="stats">
             <span>{{getClosedCount()}}</span> / <span>{{bugs.length}}</span>
         </div>
-        <div class="search">
+        <div class="section">
             <label for="">Search :</label>
-            <input type="text">
+            <input type="text" ng-model="searchBug.title">
+        </div>
+        <div class="section">
+            <label for="">Sort :</label>
+            <select ng-model="sortByField">
+                <option value="id">id</option>
+                <option value="title">title</option>
+                <option value="isClosed">isClosed</option>
+            </select>
+            <span>Descending ?</span>
+            <input type="checkbox" name="" id="" ng-model="descending">
         </div>
         <form action="">
             <label for="">Bug :</label>
@@ -152,7 +162,7 @@
         </form>
         <ol>
             <li
-                ng-repeat="bug in bugs | filter:'search'"
+                ng-repeat="bug in bugs | filter:searchBug | orderBy:sortByField:descending"
                 ng-click="toggleStatus(bug)"
                 ng-class="{closed : bug.isClosed}"
             >{{bug.title | lowercase}}</li>
