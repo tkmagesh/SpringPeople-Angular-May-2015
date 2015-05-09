@@ -131,20 +131,26 @@
             };
         });
 
+        bugTracker.service("bugService", function($http){
+            this.getAll = function(){
+                var promise = $http.get("http://localhost:3000/bugs");
+                promise.then(function(response){
+                    console.log(arguments);
+                    $scope.bugs = response.data.map(function(bugData){
+                        return new Bug(bugData);
+                    });
+                });
+
+            };
+        });
+
         bugTracker.controller("bugsController", function($scope, Bug, $http){
 
             $scope.newBugTitle = '';
 
-
             $scope.bugs = [];
 
-            var promise = $http.get("http://localhost:3000/bugs");
-            promise.then(function(response){
-                console.log(arguments);
-                $scope.bugs = response.data.map(function(bugData){
-                    return new Bug(bugData);
-                });
-            });
+
 
             $scope.addNew = function(){
                 var newBug = new Bug({title : $scope.newBugTitle, isClosed : false});
